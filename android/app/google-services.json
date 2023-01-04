@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323930363976",
+    "project_id": "pdiary",
+    "storage_bucket": "pdiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323930363976:android:fb25c022cbabc5b137e07d",
+        "android_client_info": {
+          "package_name": "com.jscompany.today"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323930363976-o4ihu6p0clf5o7p5e9q1254rml2oeisj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI-vI0-gMGPoLNZp3VrlQLSxkPHT-q_JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323930363976-o4ihu6p0clf5o7p5e9q1254rml2oeisj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
