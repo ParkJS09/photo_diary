@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:today/common/constants.dart';
-import 'package:today/screens/sign_page.dart';
+import 'package:today/presentation/screens/sign/sign_page.dart';
+import 'package:provider/provider.dart';
+import 'package:today/services/diary_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,7 +13,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DiaryService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,4 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

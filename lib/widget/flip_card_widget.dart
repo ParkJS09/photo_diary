@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:today/data/diary.dart';
+import 'package:today/services/diary_service.dart';
 
 class FlipCardWidget extends StatefulWidget {
-  final String url;
-  final String diary;
+  DiaryItem item;
 
-  const FlipCardWidget({Key? key, required this.url, required this.diary})
-      : super(key: key);
+  FlipCardWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   State<FlipCardWidget> createState() => _FlipCardWidgetState();
 }
 
 class _FlipCardWidgetState extends State<FlipCardWidget> {
-  bool isFront = true;
+
+  late DiaryService diaryService;
 
   @override
   void initState() {
     Logger().d('initState');
+    diaryService = context.read<DiaryService>();
     super.initState();
   }
 
@@ -33,13 +36,16 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
       padding: const EdgeInsets.all(14.0),
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            isFront = !isFront;
-          });
+          diaryService.onReverse(widget.item);
         },
         child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: isFront ? frontCard(widget.url) : backCard(widget.diary)),
+          duration: const Duration(milliseconds: 300),
+          child: widget.item.isFront
+              ? frontCard(widget.item.imageUrl)
+              : backCard(
+                  widget.item.diary,
+                ),
+        ),
       ),
     );
   }

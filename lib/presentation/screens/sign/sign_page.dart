@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:today/common/neumorphism_widget.dart';
-import 'package:today/screens/home_page.dart';
+import 'package:today/presentation/screens/home/home_page.dart';
 
 const distance = 16.0;
 

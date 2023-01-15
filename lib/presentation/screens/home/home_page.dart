@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:today/data/diary.dart';
+import 'package:today/services/diary_service.dart';
 import 'package:today/widget/flip_card_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,38 +17,7 @@ class _HomePageState extends State<HomePage> {
   PageStorageKey mainKey = PageStorageKey<String>('mainKey');
   PageStorageKey childKey = PageStorageKey<String>('childKey');
 
-  var list = [
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 28)),
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 27)),
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 17)),
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 16)),
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 15)),
-    Diary(
-        'test',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        'test',
-        DateTime(2022, 12, 14)),
-  ];
+  var list = dummyList;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +38,10 @@ class _HomePageState extends State<HomePage> {
               child: Text('일기를 채워주세요'),
             )
           : SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                key: UniqueKey(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  key: UniqueKey(),
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     Logger().d('main itemBuilder : $index');
@@ -87,10 +58,11 @@ class _HomePageState extends State<HomePage> {
                           child: ListView.builder(
                             key: UniqueKey(),
                             scrollDirection: Axis.horizontal,
-                            itemCount: 10,
+                            itemCount: data.itemList.length,
                             itemBuilder: (_, childIndex) {
+                              DiaryItem item = data.itemList[childIndex];
                               Logger().d('child itemBuilder : $index');
-                              return getDetailList(childIndex);
+                              return getDetailList(item);
                             },
                           ),
                         )
@@ -98,19 +70,22 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
+              ),
             ),
-          ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
       ),
     );
   }
 
-  Widget getDetailList(int index) {
-    return FlipCardWidget(
-      key: UniqueKey(),
-      url: 'https://picsum.photos/200/300',
-      diary: index.toString(),
+  Widget getDetailList(DiaryItem item) {
+    return Consumer<DiaryService>(
+      builder: (context, diaryService, _) {
+        return FlipCardWidget(
+          key: UniqueKey(),
+          item: item,
+        );
+      },
     );
   }
 }
