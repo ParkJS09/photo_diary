@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:today/data/diary.dart';
+import 'package:today/data/models/diary.dart';
 
 class DiaryService extends ChangeNotifier {
   var diaryList = dummyList;

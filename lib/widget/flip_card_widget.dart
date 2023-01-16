@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:today/data/diary.dart';
+import 'package:today/data/models/diary.dart';
 import 'package:today/services/diary_service.dart';
 
 class FlipCardWidget extends StatefulWidget {

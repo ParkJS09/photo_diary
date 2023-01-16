@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:today/data/diary.dart';
+import 'package:today/data/models/diary.dart';
 import 'package:today/services/diary_service.dart';
 import 'package:today/widget/flip_card_widget.dart';
 
