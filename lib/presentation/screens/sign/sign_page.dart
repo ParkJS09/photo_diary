@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:today/common/neumorphism_widget.dart';
 import 'package:today/presentation/screens/home/home_page.dart';
+import 'package:today/presentation/screens/sign/auth_viewmodel.dart';
 
 const distance = 16.0;
 
@@ -104,10 +106,11 @@ class _SignPageState extends State<SignPage> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomePage()),
-                      );
+                      context.read<AuthViewModel>().onSignIn('test@test.com', 'a12345678');
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(builder: (_) => const HomePage()),
+                      // );
                     },
                   ),
                   const SizedBox(
@@ -122,7 +125,9 @@ class _SignPageState extends State<SignPage> {
                         child: Text('SignUp'),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   ),
                 ],
               ),

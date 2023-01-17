@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:today/common/constants.dart';
+import 'package:today/config/di/di.dart';
 import 'package:today/data/repository/impl/auth_repository_impl.dart';
 import 'package:today/domain/auth_usecase.dart';
 import 'package:today/presentation/screens/home/home_page.dart';
@@ -15,6 +16,7 @@ import 'package:today/services/diary_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  setupDi();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,11 +27,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => DiaryService()),
         ChangeNotifierProvider(
-          create: (context) => AuthViewModel(
-            authUseCase: AuthUseCase(
-              authRepository: AuthRepositoryImpl(),
-            ),
-          ),
+          create: (context) => AuthViewModel(),
         ),
       ],
       child: const MyApp(),
