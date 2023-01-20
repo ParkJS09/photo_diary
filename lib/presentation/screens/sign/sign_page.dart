@@ -126,7 +126,7 @@ class _SignPageState extends State<SignPage> {
                       ),
                     ),
                     onTap: () {
-
+                      context.read<AuthViewModel>().onSignUp('test@test.com', 'a12345678');
                     },
                   ),
                 ],

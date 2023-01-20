@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:today/config/di/di.dart';
-import 'package:today/data/models/network_response.dart';
 import 'package:today/domain/auth_usecase.dart';
 
 class AuthViewModel extends ChangeNotifier {
@@ -21,25 +20,43 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   void onSignIn(String email, String password) async {
-    NetworkResult result = await authUseCase.onSignIn(
+    log('onSignIn---------------------');
+    var result = await authUseCase.onSignIn(
         email: email,
         password: password
     );
-    log('result : $result');
-    log('result.data : ${result.data}');
-    switch(result.data){
-      case NetworkSucess :
-        log('NetworkSucess : ${result.data.data}');
-        break;
-      case NetworkFail :
-        log('NetworkFail : ${result.data}');
-        String errMsg = result.data;
-        log('NetworkFail_errMsg : $errMsg');
-        break;
-    }
+    log('result -> $result');
+    result.when(
+        success: (data){
+          user = data;
+        },
+        failure: (data) {
+          log('failure msg -> $data');
+        },
+        error: (message) {
+          log('error msg -> $message');
+        },
+    );
+    notifyListeners();
   }
 
-  void onSignUp() async {
-
+  void onSignUp(String email, String password) async {
+    log('onSignUp---------------------');
+    var result = await authUseCase.onSignUp(
+        email: email,
+        password: password
+    );
+    result.when(
+      success: (data){
+        user = data;
+      },
+      failure: (data) {
+        log('failure msg -> $data');
+      },
+      error: (message) {
+        log('error msg -> $message');
+      },
+    );
+    notifyListeners();
   }
 }

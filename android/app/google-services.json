@@ -29,6 +29,13 @@
             {
               "client_id": "323930363976-o4ihu6p0clf5o7p5e9q1254rml2oeisj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "323930363976-aarve2q5dmlopfk946je9upls99rii6d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jscompany.today"
+              }
             }
           ]
         }

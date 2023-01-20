@@ -14,17 +14,17 @@ class AuthUseCase {
     return authRepository.currentUser();
   }
 
-  Future<NetworkResult> onSignIn({
+  Future<Result> onSignIn({
     required String email, // 이메일
     required String password, // 비밀번호
   }) async {
     return await authRepository.onSignIn(email: email, password: password);
   }
 
-  Future<void> onSignUp({
+  Future<Result> onSignUp({
     required String email, // 이메일
     required String password, // 비밀번호
   }) async {
-
+    return await authRepository.onSignUp(email: email, password: password);
   }
 }
