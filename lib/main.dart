@@ -10,7 +10,7 @@ import 'package:today/data/repository/impl/auth_repository_impl.dart';
 import 'package:today/domain/auth_usecase.dart';
 import 'package:today/presentation/screens/home/home_page.dart';
 import 'package:today/presentation/screens/sign/auth_viewmodel.dart';
-import 'package:today/presentation/screens/sign/sign_page.dart';
+import 'package:today/presentation/screens/sign/auth_page.dart';
 import 'package:provider/provider.dart';
 import 'package:today/services/diary_service.dart';
 import 'firebase_options.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: themeData,
-          home: authViewModel.user == null ? SignPage() : HomePage(),
+          home: authViewModel.user == null ? AuthPage() : HomePage(),
         );
       },
     );

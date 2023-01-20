@@ -7,14 +7,14 @@ import 'package:today/presentation/screens/sign/auth_viewmodel.dart';
 
 const distance = 16.0;
 
-class SignPage extends StatefulWidget {
-  const SignPage({Key? key}) : super(key: key);
+class AuthPage extends StatefulWidget {
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
-  State<SignPage> createState() => _SignPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
-class _SignPageState extends State<SignPage> {
+class _AuthPageState extends State<AuthPage> {
   final TextEditingController _idCont = TextEditingController();
   final TextEditingController _passwordCont = TextEditingController();
   bool _isShowEmailDelete = false;
