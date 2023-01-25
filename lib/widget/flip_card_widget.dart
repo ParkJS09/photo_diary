@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:today/data/models/diary.dart';
-import 'package:today/services/diary_service.dart';
+import 'package:today/presentation/home/home_viewmodel.dart';
+
 
 class FlipCardWidget extends StatefulWidget {
   DiaryItem item;
@@ -15,19 +15,16 @@ class FlipCardWidget extends StatefulWidget {
 
 class _FlipCardWidgetState extends State<FlipCardWidget> {
 
-  late DiaryService diaryService;
+  late HomeViewModel homeViewModel;
 
   @override
   void initState() {
-    Logger().d('initState');
-    diaryService = context.read<DiaryService>();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    Logger().d('dispose');
   }
 
   @override
@@ -36,7 +33,7 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
       padding: const EdgeInsets.all(14.0),
       child: GestureDetector(
         onTap: () {
-          diaryService.onReverse(widget.item);
+          context.read<HomeViewModel>().onReverse(widget.item);
         },
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),

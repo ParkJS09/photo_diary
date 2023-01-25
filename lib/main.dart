@@ -2,18 +2,16 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:today/common/constants.dart';
 import 'package:today/config/di/di.dart';
-import 'package:today/data/repository/impl/auth_repository_impl.dart';
-import 'package:today/domain/auth_usecase.dart';
-import 'package:today/presentation/screens/home/home_page.dart';
-import 'package:today/presentation/screens/sign/auth_viewmodel.dart';
-import 'package:today/presentation/screens/sign/auth_page.dart';
+
 import 'package:provider/provider.dart';
-import 'package:today/services/diary_service.dart';
+import 'package:today/presentation/home/home_page.dart';
+import 'package:today/presentation/home/home_viewmodel.dart';
+import 'package:today/presentation/sign/auth_page.dart';
+import 'package:today/presentation/sign/auth_viewmodel.dart';
 import 'firebase_options.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   setupDi();
@@ -22,12 +20,16 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  initializeDateFormatting();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DiaryService()),
         ChangeNotifierProvider(
           create: (context) => AuthViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeViewModel(),
         ),
       ],
       child: const MyApp(),

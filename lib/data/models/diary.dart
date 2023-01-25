@@ -1,10 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class Diary {
   final DateTime date;
   final List<DiaryItem> itemList;
 
   Diary({required this.date, required this.itemList});
+
+  String getDateTime(){
+    return DateFormat.yMMMd('ko-KR').format(date);
+  }
 }
 
 class DiaryItem {
@@ -20,7 +24,7 @@ class DiaryItem {
 }
 
 var dummyList = [
-  Diary(date: DateTime.parse('20230114'), itemList: [
+  Diary(date: DateTime.parse('20230101'), itemList: [
     DiaryItem(
         imageUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
