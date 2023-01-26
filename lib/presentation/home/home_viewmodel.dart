@@ -3,8 +3,18 @@ import 'package:today/data/models/diary.dart';
 
 class HomeViewModel extends ChangeNotifier {
 
+  DateTime selectDate = DateTime.now();
   List<Diary> diaryList = List.empty();
   bool isLoading = false;
+
+
+  void setDatetime(DateTime dateTime){
+    if(selectDate != dateTime) {
+      selectDate = dateTime;
+      notifyListeners();
+      getDiaryList();
+    }
+  }
 
   Future<void> getDiaryList() async {
     isLoading = true;

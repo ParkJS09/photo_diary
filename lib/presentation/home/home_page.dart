@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:today/data/models/diary.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
-import 'package:today/widget/flip_card_widget.dart';
+import 'package:today/presentation/home/widget/flip_card_widget.dart';
+import 'package:today/presentation/home/widget/main_calendar.dart';
+import 'package:today/utils/calendar_util.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -18,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageStorageKey mainKey = const PageStorageKey<String>('mainKey');
   PageStorageKey childKey = const PageStorageKey<String>('childKey');
+  ScrollController listScrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,37 +34,55 @@ class _HomePageState extends State<HomePage> {
     context.select((HomeViewModel homeViewModel) => homeViewModel.isLoading);
     final isLoading = context.select<HomeViewModel, bool>(
         (HomeViewModel viewModel) => viewModel.isLoading);
-
-    Logger().d('onBuild in _HomePageState');
     return Scaffold(
       appBar: AppBar(
-        title: GestureDetector(
-          child: Text(
-            'Photo Diary',
-            style: GoogleFonts.getFont(
-              'Nanum Gothic',
-              fontSize: 28.0,
-            ),
-          ),
-          onTap: () {},
+        title: Text(
+          'Photo Diary',
+          style: GoogleFonts.getFont('Nanum Gothic',
+              fontSize: 28.0, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
         backgroundColor: Colors.white30,
       ),
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Consumer<HomeViewModel>(
-              builder: (context, viewModel, child) {
-                return viewModel.diaryList.isEmpty
-                    ? emptyView()
-                    : diaryList(viewModel.diaryList);
-              },
-            ),
-            Visibility(
-              visible: isLoading,
-              child: const Center(
-                child: CircularProgressIndicator(),
+            const MainCalendar(),
+            Expanded(
+              child: Consumer<HomeViewModel>(
+                builder: (context, viewModel, child) {
+                  if (viewModel.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (viewModel.diaryList.isEmpty) {
+                    return emptyView();
+                  }
+                  log('size : ${viewModel.diaryList.length}');
+                  return GridView.count(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 28.0,
+                      horizontal: 14.0,
+                    ),
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 12.0,
+                    crossAxisSpacing: 12.0,
+                    children: List.generate(
+                      viewModel.diaryList.length,
+                      (index) {
+                        DiaryItem item = viewModel.diaryList[0].itemList[0];
+                        return Container(
+                          width: 150,
+                          height: 150,
+                          child: Image.network(
+                            item.imageUrl
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -81,34 +103,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget diaryList(List<Diary> list) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          Diary data = list[index];
-          return Column(
-            children: [
-              ListTile(
-                title: Text(data.getDateTime()),
+    return ListView.builder(
+      itemCount: list.length,
+      itemBuilder: (context, index) {
+        Diary data = list[index];
+        return Column(
+          children: [
+            ListTile(
+              title: Text(data.getDateTime()),
+            ),
+            Container(
+              height: 320,
+              decoration: const BoxDecoration(),
+              child: ListView.builder(
+                key: UniqueKey(),
+                scrollDirection: Axis.horizontal,
+                itemCount: data.itemList.length,
+                itemBuilder: (_, childIndex) {
+                  DiaryItem item = data.itemList[childIndex];
+                  return getDetailList(item);
+                },
               ),
-              Container(
-                height: 320,
-                decoration: const BoxDecoration(),
-                child: ListView.builder(
-                  key: UniqueKey(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.itemList.length,
-                  itemBuilder: (_, childIndex) {
-                    DiaryItem item = data.itemList[childIndex];
-                    return getDetailList(item);
-                  },
-                ),
-              )
-            ],
-          );
-        },
-      ),
+            )
+          ],
+        );
+      },
     );
   }
 
