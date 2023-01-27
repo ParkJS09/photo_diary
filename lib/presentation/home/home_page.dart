@@ -73,15 +73,16 @@ class _HomePageState extends State<HomePage> {
                       viewModel.diaryList.length,
                       (index) {
                         DiaryItem item = viewModel.diaryList[0].itemList[0];
+                        UniqueKey key = UniqueKey();
                         return GestureDetector(
                           onTap: (){
                             log('onShow Detail Page');
                             Navigator.push(context, MaterialPageRoute(builder: (_) {
-                              return DetailPage(index: index,imgUrl: item.imageUrl);
+                              return DetailPage(uniqueKey: key, item: item,);
                             }));
                           },
                           child: Hero(
-                            tag: '${item.imageUrl}$index',
+                            tag: key,
                             child: Container(
                               width: 150,
                               height: 150,

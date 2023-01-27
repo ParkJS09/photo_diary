@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:today/data/models/diary.dart';
 
 class DetailPage extends StatelessWidget {
-  final String imgUrl;
-  final int index;
+  final DiaryItem item;
+  final UniqueKey uniqueKey;
 
-  const DetailPage({Key? key, required this.index, required this.imgUrl})
+  const DetailPage({Key? key,required this.item, required this.uniqueKey})
       : super(key: key);
 
   @override
@@ -22,10 +23,13 @@ class DetailPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Hero(
-            tag: '$imgUrl$index',
-            child: Image.network(
-              imgUrl,
+          Container(
+            width: double.infinity,
+            child: Hero(
+                tag: uniqueKey,
+                child: Image.network(
+                  item.imageUrl,
+                )
             ),
           )
         ],
