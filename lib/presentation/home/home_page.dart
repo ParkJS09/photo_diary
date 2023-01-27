@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:today/data/models/diary.dart';
+import 'package:today/presentation/detail/datail_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
 import 'package:today/presentation/home/widget/flip_card_widget.dart';
 import 'package:today/presentation/home/widget/main_calendar.dart';
@@ -72,11 +73,22 @@ class _HomePageState extends State<HomePage> {
                       viewModel.diaryList.length,
                       (index) {
                         DiaryItem item = viewModel.diaryList[0].itemList[0];
-                        return Container(
-                          width: 150,
-                          height: 150,
-                          child: Image.network(
-                            item.imageUrl
+                        return GestureDetector(
+                          onTap: (){
+                            log('onShow Detail Page');
+                            Navigator.push(context, MaterialPageRoute(builder: (_) {
+                              return DetailPage(index: index,imgUrl: item.imageUrl);
+                            }));
+                          },
+                          child: Hero(
+                            tag: '${item.imageUrl}$index',
+                            child: Container(
+                              width: 150,
+                              height: 150,
+                              child: Image.network(
+                                item.imageUrl
+                              ),
+                            ),
                           ),
                         );
                       },
