@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:today/common/neumorphism_widget.dart';
+import 'package:today/presentation/neumorphism_widget.dart';
 import 'package:today/presentation/sign/auth_viewmodel.dart';
 
 
@@ -106,11 +106,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     onTap: () {
-                      context.read<AuthViewModel>().onSignIn('test@test.com', 'a12345678');
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(builder: (_) => const HomePage()),
-                      // );
+                      context.read<AuthViewModel>().onSignIn(_idCont.text, _passwordCont.text);
                     },
                   ),
                   const SizedBox(
@@ -126,7 +122,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     onTap: () {
-                      context.read<AuthViewModel>().onSignUp('test@test.com', 'a12345678');
+                      context.read<AuthViewModel>().onSignUp(_idCont.text, _passwordCont.text);
                     },
                   ),
                 ],
