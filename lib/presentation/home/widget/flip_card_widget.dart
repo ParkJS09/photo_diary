@@ -53,6 +53,7 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         tag: widget.uniqueKey,
         child: Image.network(
           widget.item.imageUrl,
+          fit:  BoxFit.contain,
         ),
       ),
     );
