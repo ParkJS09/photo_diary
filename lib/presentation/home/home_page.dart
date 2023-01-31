@@ -2,15 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:today/data/models/diary.dart';
 import 'package:today/presentation/detail/datail_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
-import 'package:today/presentation/home/widget/flip_card_widget.dart';
 import 'package:today/presentation/home/widget/main_calendar.dart';
-import 'package:today/utils/calendar_util.dart';
+import 'package:today/utils/hero_dialog_router.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -75,19 +72,22 @@ class _HomePageState extends State<HomePage> {
                         DiaryItem item = viewModel.diaryList[0].itemList[0];
                         UniqueKey key = UniqueKey();
                         return GestureDetector(
-                          onTap: (){
-                            log('onShow Detail Page');
-                            Navigator.push(context, MaterialPageRoute(builder: (_) {
-                              return DetailPage(uniqueKey: key, item: item,);
-                            }));
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              HeroDialogRoute(
+                                builder: (BuildContext context) =>
+                                    DetailPage(item: item, uniqueKey: key),
+                              ),
+                            );
                           },
-                          child: Hero(
-                            tag: key,
-                            child: Container(
-                              width: 150,
-                              height: 150,
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            child: Hero(
+                              tag: key,
                               child: Image.network(
-                                item.imageUrl
+                                item.imageUrl,
                               ),
                             ),
                           ),
@@ -112,42 +112,6 @@ class _HomePageState extends State<HomePage> {
   Widget emptyView() {
     return const Center(
       child: Text('일기를 채워주세요'),
-    );
-  }
-
-  Widget diaryList(List<Diary> list) {
-    return ListView.builder(
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        Diary data = list[index];
-        return Column(
-          children: [
-            ListTile(
-              title: Text(data.getDateTime()),
-            ),
-            Container(
-              height: 320,
-              decoration: const BoxDecoration(),
-              child: ListView.builder(
-                key: UniqueKey(),
-                scrollDirection: Axis.horizontal,
-                itemCount: data.itemList.length,
-                itemBuilder: (_, childIndex) {
-                  DiaryItem item = data.itemList[childIndex];
-                  return getDetailList(item);
-                },
-              ),
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  Widget getDetailList(DiaryItem item) {
-    return FlipCardWidget(
-      key: UniqueKey(),
-      item: item,
     );
   }
 }
