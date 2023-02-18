@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:today/data/models/diary.dart';
+import 'package:intl/intl.dart';
 
 class HomeViewModel extends ChangeNotifier {
 
@@ -14,6 +15,10 @@ class HomeViewModel extends ChangeNotifier {
       notifyListeners();
       getDiaryList();
     }
+  }
+
+  String getDateTime() {
+    return DateFormat('yyyy-MM-dd').format(selectDate);
   }
 
   Future<void> getDiaryList() async {

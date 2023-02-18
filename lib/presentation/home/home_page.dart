@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:today/data/models/diary.dart';
+import 'package:today/presentation/add/add_diary_page.dart';
 import 'package:today/presentation/detail/datail_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
 import 'package:today/presentation/home/widget/main_calendar.dart';
@@ -57,7 +58,6 @@ class _HomePageState extends State<HomePage> {
                   if (viewModel.diaryList.isEmpty) {
                     return emptyView();
                   }
-                  log('size : ${viewModel.diaryList.length}');
                   return GridView.count(
                     padding: const EdgeInsets.symmetric(
                       vertical: 28.0,
@@ -70,26 +70,38 @@ class _HomePageState extends State<HomePage> {
                       viewModel.diaryList.length,
                       (index) {
                         DiaryItem item = viewModel.diaryList[0].itemList[0];
+                        UniqueKey containerKey = UniqueKey();
                         UniqueKey key = UniqueKey();
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               HeroDialogRoute(
-                                builder: (BuildContext context) =>
-                                    DetailPage(item: item, uniqueKey: key),
+                                builder: (BuildContext context) => DetailPage(
+                                  containerKey: containerKey,
+                                  uniqueKey: key,
+                                  item: item,
+                                ),
                               ),
                             );
                           },
-                          child: Container(
-                            width: 150,
-                            height: 150,
-                            child: Hero(
-                              tag: key,
-                              child: Image.network(
-                                item.imageUrl,
+                          child: Stack(
+                            children: [
+                              Hero(
+                                tag: containerKey,
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                ),
                               ),
-                            ),
+                              Hero(
+                                tag: key,
+                                child: Image.network(
+                                  item.imageUrl,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -103,7 +115,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<HomeViewModel>().updateDiaryList();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddDiaryPage(),
+            ),
+          );
         },
       ),
     );

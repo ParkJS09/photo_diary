@@ -8,15 +8,24 @@ import 'package:today/presentation/home/widget/flip_card_widget.dart';
 class DetailPage extends StatelessWidget {
   final DiaryItem item;
   final UniqueKey uniqueKey;
+  final UniqueKey containerKey;
 
-  const DetailPage({Key? key, required this.item, required this.uniqueKey})
+  const DetailPage(
+      {Key? key,
+      required this.item,
+      required this.containerKey,
+      required this.uniqueKey})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FlipCardWidget(
-      uniqueKey: uniqueKey,
-      item: item,
+    return Stack(
+      children: [
+        FlipCardWidget(
+          uniqueKey: uniqueKey,
+          item: item,
+        )
+      ],
     );
   }
 }
