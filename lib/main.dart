@@ -14,12 +14,11 @@ import 'firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-  setupDi();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  setupDi();
   initializeDateFormatting();
 
   runApp(
@@ -32,7 +31,7 @@ void main() async {
           create: (context) => HomeViewModel(),
         ),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }

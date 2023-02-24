@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:today/config/di/di.dart';
 import 'package:today/data/models/diary.dart';
 import 'package:intl/intl.dart';
+import 'package:today/domain/diary_usecase.dart';
 
 class HomeViewModel extends ChangeNotifier {
-
   DateTime selectDate = DateTime.now();
   List<Diary> diaryList = List.empty();
   bool isLoading = false;
 
+  late DiaryUseCase _diaryUseCase;
 
-  void setDatetime(DateTime dateTime){
-    if(selectDate != dateTime) {
+  HomeViewModel() {
+    _diaryUseCase = getIt.get<DiaryUseCase>();
+  }
+
+  void setDatetime(DateTime dateTime) {
+    if (selectDate != dateTime) {
       selectDate = dateTime;
       notifyListeners();
       getDiaryList();
@@ -18,7 +24,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   String getDateTime() {
-    return DateFormat('yyyy-MM-dd').format(selectDate);
+    return DateFormat('yyyy년 MM월 dd일').format(selectDate);
   }
 
   Future<void> getDiaryList() async {
@@ -26,7 +32,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 3000), () {
       isLoading = false;
-      diaryList = dummyList;
+      diaryList = List.empty();
       notifyListeners();
     });
   }
@@ -35,20 +41,13 @@ class HomeViewModel extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 3000), () {
-      diaryList.add(
-        Diary(
-          date: DateTime.now(),
-          itemList: [
-            DiaryItem(
-                imageUrl:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-                diary: 'TEST1'),
-          ],
-        ),
-      );
       isLoading = false;
       notifyListeners();
     });
+  }
+
+  Future<void> uploadDiary(String text, String path) async {
+    await _diaryUseCase.saveImageAndText(text, path);
   }
 
   void onReverse(DiaryItem item) {

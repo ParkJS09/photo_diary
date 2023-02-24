@@ -6,198 +6,22 @@ class Diary {
 
   Diary({required this.date, required this.itemList});
 
-  String getDateTime(){
+  String getDateTime() {
     return DateFormat.yMMMd('ko-KR').format(date);
   }
 }
 
 class DiaryItem {
+  final String date;
   final String imageUrl;
   final String diary;
   bool isFront = true;
 
-  DiaryItem({required this.imageUrl, required this.diary});
+  DiaryItem({required this.date, required this.imageUrl, required this.diary});
 
   void onReverse() {
     isFront = !isFront;
   }
 }
 
-var dummyList = [
-  Diary(date: DateTime.parse('20230101'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230115'), itemList: [
-    DiaryItem(
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230114'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230115'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230114'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230115'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230114'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ]),
-  Diary(date: DateTime.parse('20230115'), itemList: [
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST1'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST2'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST3'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST4'),
-    DiaryItem(
-        imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0G4Jj47yiz5zOPtf3AAha0jxUcoX4SAo_Gw&usqp=CAU',
-        diary: 'TEST5'),
-  ])
-];
+var dummyList = [];

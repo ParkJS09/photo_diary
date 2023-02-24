@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jscompany.today">
 
-    <application android:requestLegacyExternalStorage="true"/>
-
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"

@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
               fontSize: 28.0, fontWeight: FontWeight.w700),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white30,
       ),
       body: SafeArea(
         child: Column(

@@ -15,6 +15,7 @@ class AuthViewModel extends ChangeNotifier {
   User? user;
 
   void getCurrentUser() async {
+    log('message');
     user = await authUseCase.getCurrentUser();
     notifyListeners();
   }
