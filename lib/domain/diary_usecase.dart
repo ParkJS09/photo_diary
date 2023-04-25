@@ -1,5 +1,6 @@
 import 'package:today/config/di/di.dart';
 import 'package:today/data/models/diary.dart';
+import 'package:today/data/models/network_response.dart';
 import 'package:today/data/repository/diary_repository.dart';
 
 class DiaryUseCase {
@@ -9,12 +10,15 @@ class DiaryUseCase {
     _diaryRepository = getIt.get<DiaryRepository>();
   }
 
-  @override
-  Future<void> saveImageAndText(String text, String imagePath) async {
-    await _diaryRepository.saveImageAndText(text, imagePath);
+  Future<Result> saveImageAndText(String text, String imagePath) async {
+    try {
+      await _diaryRepository.saveImageAndText(text, imagePath);
+      return Result.success(data: NetworkSuccess(data: true));
+    } catch (e) {
+      return Result.failure(data: NetworkFail(data: false));
+    }
   }
 
-  @override
   Future<List<DiaryItem>> getImages() async {
     return List.empty();
   }

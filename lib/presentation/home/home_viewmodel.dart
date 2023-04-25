@@ -1,18 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:today/config/di/di.dart';
 import 'package:today/data/models/diary.dart';
 import 'package:intl/intl.dart';
+import 'package:today/data/models/network_response.dart';
 import 'package:today/domain/diary_usecase.dart';
 
 class HomeViewModel extends ChangeNotifier {
   DateTime selectDate = DateTime.now();
   List<Diary> diaryList = List.empty();
   bool isLoading = false;
+  bool isSuccess = false;
 
   late DiaryUseCase _diaryUseCase;
 
   HomeViewModel() {
     _diaryUseCase = getIt.get<DiaryUseCase>();
+  }
+
+  void init() {
+    if (isSuccess) {
+      isSuccess = false;
+      notifyListeners();
+    }
   }
 
   void setDatetime(DateTime dateTime) {
@@ -47,7 +58,21 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> uploadDiary(String text, String path) async {
-    await _diaryUseCase.saveImageAndText(text, path);
+    Result _result = await _diaryUseCase.saveImageAndText(text, path);
+    log('uploadDiary.result : $_result');
+    switch (_result.runtimeType) {
+      case Success:
+        print('onSuccess');
+        break;
+      case Failure:
+        print('onFailure');
+        break;
+      case Error:
+        print('onError');
+        break;
+    }
+    isSuccess = true;
+    notifyListeners();
   }
 
   void onReverse(DiaryItem item) {

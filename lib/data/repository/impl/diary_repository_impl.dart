@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:today/data/models/diary.dart';
 import 'package:today/data/repository/diary_repository.dart';
+import 'package:path/path.dart' as path;
 
 class DiaryRepositoryImpl implements DiaryRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,42 +16,65 @@ class DiaryRepositoryImpl implements DiaryRepository {
 
   @override
   Future<List<DiaryItem>> getImages() async {
-    return List.empty();
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return [];
+      }
+
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('images')
+          .get();
+
+      List<DiaryItem> items = querySnapshot.docs.map((doc) {
+        return DiaryItem(
+            date: DateTime.parse(doc['date']).toString(),
+            imageUrl: doc['image_url'],
+            diary: doc['text'].toString());
+      }).toList();
+
+      return items;
+    } catch (e) {
+      log('getImages failed: $e');
+      rethrow;
+    }
   }
 
   @override
   Future<void> saveImageAndText(String text, String imagePath) async {
-    // Get the current user
-    User? user = _auth.currentUser;
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        throw FirebaseAuthException(message: 'User not logged in', code: "0");
+      }
 
-    if (user == null) {
-      // handle error
-      return;
+      String fileName = '${DateTime.now().toIso8601String()}.jpg';
+
+      Directory cacheDir = await getTemporaryDirectory();
+      File tempImageFile = File(path.join(cacheDir.path, fileName));
+      await tempImageFile.writeAsBytes(await File(imagePath).readAsBytes());
+
+      Reference ref = _storage.ref().child(user.uid).child(fileName);
+      UploadTask uploadTask = ref.putFile(tempImageFile);
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      String imageUrl = await taskSnapshot.ref.getDownloadURL();
+
+      await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('images')
+          .add({
+        'text': text,
+        'image_url': imageUrl,
+        'date': DateTime.now().toIso8601String(),
+      });
+      log('Image saved successfully');
+    } catch (e) {
+      log('saveImageAndText failed: $e');
+      rethrow;
     }
-
-    // Create a reference to the image file in Firebase Storage
-    Reference ref = _storage
-        .ref()
-        .child(user.uid)
-        .child('${DateTime.now().toIso8601String()}.jpg');
-
-    // Upload the image to Firebase Storage
-    UploadTask uploadTask = ref.putFile(File(imagePath));
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-
-    // Get the URL of the uploaded image
-    String imageUrl = await taskSnapshot.ref.getDownloadURL();
-
-    // Save the image URL and text to Firebase Firestore
-    await _firestore
-        .collection('users')
-        .doc(user.uid)
-        .collection('images')
-        .doc()
-        .set({
-      'text': text,
-      'image_url': imageUrl,
-      'date': DateTime.now().toIso8601String()
-    });
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -28,22 +29,22 @@ class _AddDiaryPageState extends State<AddDiaryPage> {
   @override
   void initState() {
     super.initState();
+    context.read<HomeViewModel>().init();
     _imagePicker = ImagePicker();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<HomeViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('일기 추가하기'),
         actions: [
           IconButton(
               onPressed: () {
-                context
-                    .read<HomeViewModel>()
-                    .uploadDiary(_textController.text, _image!.path);
+                viewModel.uploadDiary(_textController.text, _image!.path);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.save,
               ))
         ],
