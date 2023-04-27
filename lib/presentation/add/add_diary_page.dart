@@ -17,6 +17,7 @@ class _AddDiaryPageState extends State<AddDiaryPage> {
   XFile? _image;
   late ImagePicker _imagePicker;
   final TextEditingController _textController = TextEditingController();
+
   void _getImageFromGallery() async {
     XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -35,59 +36,66 @@ class _AddDiaryPageState extends State<AddDiaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('일기 추가하기'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                viewModel.uploadDiary(_textController.text, _image!.path);
-              },
-              icon: const Icon(
-                Icons.save,
-              ))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
-              child: Text(
-                context.read<HomeViewModel>().getDateTime(),
-                textAlign: TextAlign.start,
-                style: const TextStyle(
-                  fontSize: 24.0,
+    return Consumer<HomeViewModel>(
+      builder: (_, viewModel, child) {
+        if (viewModel.isSuccess) {
+          Navigator.pop(context);
+        }
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('일기 추가하기'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  viewModel.uploadDiary(_textController.text, _image!.path);
+                },
+                icon: const Icon(
+                  Icons.save,
                 ),
               ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 14.0),
+                  child: Text(
+                    context.read<HomeViewModel>().getDateTime(),
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _getImageFromGallery();
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: imageField(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 14.0,
+                  ),
+                  child: TextField(
+                    controller: _textController,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    maxLength: 100,
+                    textInputAction: TextInputAction.newline,
+                  ),
+                ),
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                _getImageFromGallery();
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: imageField(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 14.0,
-              ),
-              child: TextField(
-                controller: _textController,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                maxLength: 100,
-                textInputAction: TextInputAction.newline,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

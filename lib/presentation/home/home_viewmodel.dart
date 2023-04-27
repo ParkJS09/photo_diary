@@ -11,7 +11,9 @@ class HomeViewModel extends ChangeNotifier {
   DateTime selectDate = DateTime.now();
   List<Diary> diaryList = List.empty();
   bool isLoading = false;
-  bool isSuccess = false;
+  bool _isSuccess = false;
+
+  bool get isSuccess => _isSuccess;
 
   late DiaryUseCase _diaryUseCase;
 
@@ -20,8 +22,8 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void init() {
-    if (isSuccess) {
-      isSuccess = false;
+    if (_isSuccess) {
+      _isSuccess = false;
       notifyListeners();
     }
   }
@@ -59,19 +61,13 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> uploadDiary(String text, String path) async {
     Result _result = await _diaryUseCase.saveImageAndText(text, path);
-    log('uploadDiary.result : $_result');
-    switch (_result.runtimeType) {
-      case Success:
-        print('onSuccess');
-        break;
-      case Failure:
-        print('onFailure');
-        break;
-      case Error:
-        print('onError');
-        break;
-    }
-    isSuccess = true;
+    _result.when(success: (data) {
+      _isSuccess = true;
+    }, failure: (data) {
+      _isSuccess = false;
+    }, error: (msg) {
+      _isSuccess = false;
+    });
     notifyListeners();
   }
 
