@@ -11,34 +11,32 @@ import 'package:today/presentation/home/widget/main_calendar.dart';
 import 'package:today/utils/hero_dialog_router.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  PageStorageKey mainKey = const PageStorageKey<String>('mainKey');
-  PageStorageKey childKey = const PageStorageKey<String>('childKey');
-  ScrollController listScrollController = ScrollController();
+  late final ScrollController _listScrollController;
 
   @override
   void initState() {
     super.initState();
     context.read<HomeViewModel>().getDiaryList();
+    _listScrollController = ScrollController();
   }
 
   @override
   Widget build(BuildContext context) {
-    context.select((HomeViewModel homeViewModel) => homeViewModel.isLoading);
-    final isLoading = context.select<HomeViewModel, bool>(
-        (HomeViewModel viewModel) => viewModel.isLoading);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Photo Diary',
-          style: GoogleFonts.getFont('Nanum Gothic',
-              fontSize: 28.0, fontWeight: FontWeight.w700),
+          style: GoogleFonts.notoSans(
+            fontSize: 28.0,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         centerTitle: true,
       ),
@@ -48,7 +46,9 @@ class _HomePageState extends State<HomePage> {
             const MainCalendar(),
             Expanded(
               child: Consumer<HomeViewModel>(
-                builder: (context, viewModel, child) {
+                builder: (context, viewModel, _) {
+                  log('viewModel.isLoading: ${viewModel.isLoading}');
+                  log('viewModel.diaryList: ${viewModel.diaryList}');
                   if (viewModel.isLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -65,46 +65,10 @@ class _HomePageState extends State<HomePage> {
                     crossAxisCount: 3,
                     mainAxisSpacing: 12.0,
                     crossAxisSpacing: 12.0,
-                    children: List.generate(
-                      viewModel.diaryList.length,
-                      (index) {
-                        DiaryItem item = viewModel.diaryList[0].itemList[0];
-                        UniqueKey containerKey = UniqueKey();
-                        UniqueKey key = UniqueKey();
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              HeroDialogRoute(
-                                builder: (BuildContext context) => DetailPage(
-                                  containerKey: containerKey,
-                                  uniqueKey: key,
-                                  item: item,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Stack(
-                            children: [
-                              Hero(
-                                tag: containerKey,
-                                child: Container(
-                                  width: 150,
-                                  height: 150,
-                                ),
-                              ),
-                              Hero(
-                                tag: key,
-                                child: Image.network(
-                                  item.imageUrl,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                    controller: _listScrollController,
+                    children: viewModel.diaryList
+                        .map((imageUrl) => _buildDiaryImage(imageUrl))
+                        .toList(),
                   );
                 },
               ),
@@ -120,6 +84,49 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget _buildDiaryImage(String imageUrl) {
+    final item = DiaryItem(
+      date: DateTime.now().toString(),
+      imageUrl: imageUrl,
+      diary: 'test',
+    );
+    final containerKey = UniqueKey();
+    final key = UniqueKey();
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          HeroDialogRoute(
+            builder: (BuildContext context) => DetailPage(
+              containerKey: containerKey,
+              uniqueKey: key,
+              item: item,
+            ),
+          ),
+        );
+      },
+      child: Stack(
+        children: [
+          Hero(
+            tag: containerKey,
+            child: Container(
+              width: 150,
+              height: 150,
+            ),
+          ),
+          Hero(
+            tag: key,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ],
       ),
     );
   }
