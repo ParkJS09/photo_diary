@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:today/data/models/diary.dart';
+import 'package:today/domain/diary_content.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
 
 class FlipCardWidget extends StatefulWidget {
-  DiaryItem item;
+  DiaryContent item;
   Key uniqueKey;
 
   FlipCardWidget({Key? key, required this.uniqueKey, required this.item})
@@ -43,7 +43,7 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
                   const ValueKey(true),
                 )
               : backCard(
-                  widget.item.diary,
+                  widget.item.content ?? "",
                   const ValueKey(false),
                 ),
         ),
@@ -51,7 +51,9 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
     );
   }
 
-  Widget frontCard(String imageUrl, Key key) {
+  Widget frontCard(String? imageUrl, Key key) {
+    if (imageUrl == null) {}
+
     return Container(
       key: key,
       width: 320,
@@ -61,15 +63,20 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
           color: Colors.grey[200]),
       child: Hero(
         tag: widget.uniqueKey,
-        child: Image.network(
-          widget.item.imageUrl,
-          fit: BoxFit.contain,
-        ),
+        child: imageUrl != null
+            ? Image.network(
+                widget.item.imageUrl!,
+                fit: BoxFit.contain,
+              )
+            : Image.asset(
+                'assets/images/gnar.jpeg',
+                fit: BoxFit.contain,
+              ),
       ),
     );
   }
 
-  Widget backCard(String diary, Key key) {
+  Widget backCard(String content, Key key) {
     return Container(
       key: key,
       width: 320,
@@ -88,7 +95,7 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         interval: 300,
         subdivisions: 10,
         child: Text(
-          widget.item.diary,
+          content,
           style: GoogleFonts.getFont('Nanum Gothic',
               fontSize: 28.0, color: Colors.black),
         ),

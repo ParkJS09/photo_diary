@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:today/data/models/diary.dart';
+import 'package:today/data/models/diary_dto.dart';
 import 'package:today/data/repository/diary_repository.dart';
 import 'package:path/path.dart' as path;
 
@@ -15,7 +15,7 @@ class DiaryRepositoryImpl implements DiaryRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<List<DiaryItem>> getImages() async {
+  Future<List<DiaryDto>> getImages(DateTime date) async {
     try {
       User? user = _auth.currentUser;
       if (user == null) {
@@ -25,17 +25,24 @@ class DiaryRepositoryImpl implements DiaryRepository {
       QuerySnapshot querySnapshot = await _firestore
           .collection('users')
           .doc(user.uid)
-          .collection('images')
+          .collection('diaries')
+          .doc('${date.year}-${date.month}-${date.day}')
+          .collection('diary')
           .get();
 
-      List<DiaryItem> items = querySnapshot.docs.map((doc) {
-        return DiaryItem(
-            date: DateTime.parse(doc['date']).toString(),
-            imageUrl: doc['image_url'],
-            diary: doc['text'].toString());
-      }).toList();
-
-      return items;
+      if (querySnapshot.docs.isEmpty) {
+        return List<DiaryDto>.empty();
+      } else {
+        return querySnapshot.docs.map((e) {
+          String imageUrl = e.get('image_url');
+          String content = e.get('content');
+          log('imageUrl : $imageUrl // content: $content');
+          return DiaryDto(
+            imageUrl: imageUrl,
+            content: content,
+          );
+        }).toList();
+      }
     } catch (e) {
       log('getImages failed: $e');
       rethrow;
@@ -43,14 +50,15 @@ class DiaryRepositoryImpl implements DiaryRepository {
   }
 
   @override
-  Future<void> saveImageAndText(String text, String imagePath) async {
+  Future<void> saveImageAndText(
+      DateTime date, String content, String imagePath) async {
     try {
       User? user = _auth.currentUser;
       if (user == null) {
         throw FirebaseAuthException(message: 'User not logged in', code: "0");
       }
 
-      String fileName = '${DateTime.now().toIso8601String()}.jpg';
+      String fileName = '${date.toIso8601String()}.jpg';
 
       Directory cacheDir = await getTemporaryDirectory();
       File tempImageFile = File(path.join(cacheDir.path, fileName));
@@ -65,15 +73,17 @@ class DiaryRepositoryImpl implements DiaryRepository {
       await _firestore
           .collection('users')
           .doc(user.uid)
-          .collection('images')
-          .add({
-        'text': text,
-        'image_url': imageUrl,
-        'date': DateTime.now().toIso8601String(),
-      });
-      log('Image saved successfully');
+          .collection('diaries')
+          .doc('${date.year}-${date.month}-${date.day}')
+          .collection('diary')
+          .add(
+        {
+          'content': content,
+          'image_url': imageUrl,
+          'date': DateTime.now().toIso8601String(),
+        },
+      );
     } catch (e) {
-      log('saveImageAndText failed: $e');
       rethrow;
     }
   }

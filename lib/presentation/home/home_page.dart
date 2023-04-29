@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:today/data/models/diary.dart';
+import 'package:today/domain/diary_content.dart';
 import 'package:today/presentation/add/add_diary_page.dart';
 import 'package:today/presentation/detail/datail_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 12.0,
                     controller: _listScrollController,
                     children: viewModel.diaryList
-                        .map((imageUrl) => _buildDiaryImage(imageUrl))
+                        .map((diary) => _buildDiaryImage(diary))
                         .toList(),
                   );
                 },
@@ -89,12 +89,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDiaryImage(String imageUrl) {
-    final item = DiaryItem(
-      date: DateTime.now().toString(),
-      imageUrl: imageUrl,
-      diary: 'test',
-    );
+  Widget _buildDiaryImage(DiaryContent diary) {
     final containerKey = UniqueKey();
     final key = UniqueKey();
     return GestureDetector(
@@ -105,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             builder: (BuildContext context) => DetailPage(
               containerKey: containerKey,
               uniqueKey: key,
-              item: item,
+              item: diary,
             ),
           ),
         );
@@ -114,17 +109,22 @@ class _HomePageState extends State<HomePage> {
         children: [
           Hero(
             tag: containerKey,
-            child: Container(
+            child: SizedBox(
               width: 150,
               height: 150,
             ),
           ),
           Hero(
             tag: key,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.fill,
-            ),
+            child: diary.imageUrl != null
+                ? Image.network(
+                    diary.imageUrl!,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/gnar.jpeg',
+                    fit: BoxFit.contain,
+                  ),
           ),
         ],
       ),

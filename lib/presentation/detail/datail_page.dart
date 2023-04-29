@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:today/data/models/diary.dart';
+import 'package:today/domain/diary_content.dart';
 import 'package:today/presentation/home/widget/flip_card_widget.dart';
 
 class DetailPage extends StatelessWidget {
-  final DiaryItem item;
+  final DiaryContent item;
   final UniqueKey uniqueKey;
   final UniqueKey containerKey;
 
