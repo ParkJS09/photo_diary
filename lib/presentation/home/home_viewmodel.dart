@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:today/config/di/di.dart';
-import 'package:today/domain/diary_content.dart';
+import 'package:today/domain/models/diary_content.dart';
 import 'package:intl/intl.dart';
 import 'package:today/data/models/network_response.dart';
 import 'package:today/domain/diary_usecase.dart';

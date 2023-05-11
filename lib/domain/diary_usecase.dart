@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:today/config/di/di.dart';
 import 'package:today/data/models/diary_dto.dart';
-import 'package:today/domain/diary_content.dart';
+import 'package:today/domain/models/diary_content.dart';
 import 'package:today/data/models/network_response.dart';
-import 'package:today/data/repository/diary_repository.dart';
+import 'package:today/domain/repository/diary_repository.dart';
 
 class DiaryUseCase {
   late DiaryRepository _diaryRepository;

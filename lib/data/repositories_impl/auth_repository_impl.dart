@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:today/data/models/network_response.dart';
-import 'package:today/data/repository/auth_repository.dart';
+import 'package:today/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   @override

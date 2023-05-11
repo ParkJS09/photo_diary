@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:today/domain/diary_content.dart';
+import 'package:today/domain/models/diary_content.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
 
 class FlipCardWidget extends StatefulWidget {
@@ -33,7 +33,12 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         onTap: _onReverse,
         child: AnimatedSwitcher(
           layoutBuilder: (widget, list) => Center(
-            child: Stack(children: [widget!, ...list]),
+            child: Stack(
+              children: [
+                widget!,
+                ...list,
+              ],
+            ),
           ),
           transitionBuilder: _transitionBuilder,
           duration: const Duration(milliseconds: 1000),
@@ -89,15 +94,15 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         ),
         color: Colors.grey[200],
       ),
-      child: GridPaper(
-        color: Colors.blueAccent,
-        divisions: 2,
-        interval: 300,
-        subdivisions: 10,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           content,
-          style: GoogleFonts.getFont('Nanum Gothic',
-              fontSize: 28.0, color: Colors.black),
+          style: const TextStyle(
+            decoration: TextDecoration.none,
+            fontSize: 28,
+            color: Colors.black45,
+          ),
         ),
       ),
     );

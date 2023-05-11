@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:today/common/color_schemes.dart';
 import 'package:today/common/constants.dart';
 import 'package:today/config/di/di.dart';
 
@@ -45,9 +46,16 @@ class MyApp extends StatelessWidget {
       builder: (context, authViewModel, child) {
         log("MainPage // authViewModel.user : ${authViewModel.user}");
         return MaterialApp(
-          title: 'Flutter Demo',
-          theme: themeData,
-          home: authViewModel.user == null ? AuthPage() : HomePage(),
+          title: 'Photo Diary',
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme,
+          ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme,
+          ),
+          home: authViewModel.user == null ? const AuthPage() : HomePage(),
         );
       },
     );

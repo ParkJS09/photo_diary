@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:today/domain/diary_content.dart';
+import 'package:today/domain/models/diary_content.dart';
 import 'package:today/presentation/add/add_diary_page.dart';
 import 'package:today/presentation/detail/datail_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
@@ -102,6 +102,7 @@ class _HomePageState extends State<HomePage> {
               uniqueKey: key,
               item: diary,
             ),
+
           ),
         );
       },

@@ -23,7 +23,6 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       body: Center(
         child: SingleChildScrollView(
           child: Container(

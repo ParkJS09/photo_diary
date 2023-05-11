@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:today/data/models/diary_dto.dart';
-import 'package:today/data/repository/diary_repository.dart';
 import 'package:path/path.dart' as path;
+import 'package:today/domain/repository/diary_repository.dart';
 
 class DiaryRepositoryImpl implements DiaryRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;

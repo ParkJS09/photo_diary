@@ -1,8 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:today/domain/diary_content.dart';
+import 'package:today/domain/models/diary_content.dart';
 import 'package:today/presentation/home/widget/flip_card_widget.dart';
 
 class DetailPage extends StatelessWidget {
