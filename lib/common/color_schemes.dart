@@ -67,3 +67,56 @@ const darkColorScheme = ColorScheme(
   outlineVariant: Color(0xFF514347),
   scrim: Color(0xFF000000),
 );
+
+const TextTheme lightTextTheme = TextTheme(
+  displayLarge: TextStyle(
+    fontSize: 72.0,
+    fontWeight: FontWeight.bold,
+  ),
+  titleLarge: TextStyle(
+    fontSize: 36.0,
+    fontStyle: FontStyle.italic,
+  ),
+  titleMedium: TextStyle(
+    fontStyle: FontStyle.normal,
+    fontSize: 28.0,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 14.0,
+    fontFamily: 'Hind',
+  ),
+);
+
+const TextTheme dartTextTheme = TextTheme(
+  displayLarge: TextStyle(
+    fontSize: 72.0,
+    fontWeight: FontWeight.bold,
+  ),
+  titleLarge: TextStyle(
+    fontSize: 36.0,
+    fontStyle: FontStyle.italic,
+  ),
+  titleMedium: TextStyle(
+    fontStyle: FontStyle.normal,
+    fontSize: 28.0,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  ),
+  bodyMedium: TextStyle(
+    fontSize: 14.0,
+    fontFamily: 'Hind',
+  ),
+);
+
+ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
+    colorScheme: lightColorScheme,
+    textTheme: lightTextTheme);
+
+ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  colorScheme: darkColorScheme,
+  textTheme: dartTextTheme,
+);
