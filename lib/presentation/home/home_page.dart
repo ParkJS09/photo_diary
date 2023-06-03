@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:today/domain/models/diary_content.dart';
 import 'package:today/presentation/add/add_diary_page.dart';
 import 'package:today/presentation/detail/datail_page.dart';
+import 'package:today/presentation/home/home_state.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
 import 'package:today/presentation/home/widget/main_calendar.dart';
 import 'package:today/utils/hero_dialog_router.dart';
@@ -31,12 +32,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Photo Diary',
-          style: GoogleFonts.notoSans(
-            fontSize: 28.0,
-            fontWeight: FontWeight.w700,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         centerTitle: true,
       ),
@@ -47,29 +46,31 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Consumer<HomeViewModel>(
                 builder: (context, viewModel, _) {
-                  log('viewModel.isLoading: ${viewModel.isLoading}');
-                  log('viewModel.diaryList: ${viewModel.diaryList}');
-                  if (viewModel.isLoading) {
+                  HomeDiaryState homeState = viewModel.homeState;
+                  if (homeState is DiaryPreparing) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  }
-                  if (viewModel.diaryList.isEmpty) {
+                  } else if (homeState is DiaryList) {
+                    if (homeState.diaryItem.isEmpty) {
+                      return emptyView();
+                    }
+                    return GridView.count(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 28.0,
+                        horizontal: 14.0,
+                      ),
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 12.0,
+                      crossAxisSpacing: 12.0,
+                      controller: _listScrollController,
+                      children: homeState.diaryItem
+                          .map((diary) => _buildDiaryImage(diary))
+                          .toList(),
+                    );
+                  } else {
                     return emptyView();
                   }
-                  return GridView.count(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 28.0,
-                      horizontal: 14.0,
-                    ),
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 12.0,
-                    crossAxisSpacing: 12.0,
-                    controller: _listScrollController,
-                    children: viewModel.diaryList
-                        .map((diary) => _buildDiaryImage(diary))
-                        .toList(),
-                  );
                 },
               ),
             ),
@@ -77,6 +78,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -84,7 +86,10 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -102,21 +107,20 @@ class _HomePageState extends State<HomePage> {
               uniqueKey: key,
               item: diary,
             ),
-
           ),
         );
       },
-      child: Stack(
-        children: [
-          Hero(
-            tag: containerKey,
-            child: SizedBox(
-              width: 150,
-              height: 150,
-            ),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black45,
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
           ),
-          Hero(
-            tag: key,
+        ),
+        child: Hero(
+          tag: key,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
             child: diary.imageUrl != null
                 ? Image.network(
                     diary.imageUrl!,
@@ -127,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.contain,
                   ),
           ),
-        ],
+        ),
       ),
     );
   }

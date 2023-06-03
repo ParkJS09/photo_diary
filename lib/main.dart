@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:today/common/color_schemes.dart';
-import 'package:today/common/constants.dart';
 import 'package:today/config/di/di.dart';
-
 import 'package:provider/provider.dart';
 import 'package:today/presentation/home/home_page.dart';
 import 'package:today/presentation/home/home_viewmodel.dart';
@@ -44,7 +40,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthViewModel>(
       builder: (context, authViewModel, child) {
-        log("MainPage // authViewModel.user : ${authViewModel.user}");
         return MaterialApp(
           title: 'Photo Diary',
           theme: ThemeData(
@@ -55,6 +50,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             colorScheme: darkColorScheme,
           ),
+          // TODO 230603 Splash에서 해당 로직 체크
           home: authViewModel.user == null ? const AuthPage() : HomePage(),
         );
       },
