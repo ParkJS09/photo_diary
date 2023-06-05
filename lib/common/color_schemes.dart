@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const lightColorScheme = ColorScheme(
+const defaultLightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF984061),
   onPrimary: Color(0xFFFFFFFF),
@@ -35,7 +35,7 @@ const lightColorScheme = ColorScheme(
   scrim: Color(0xFF000000),
 );
 
-const darkColorScheme = ColorScheme(
+const defaultDarkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFFFFB0C8),
   onPrimary: Color(0xFF5E1133),
@@ -142,15 +142,4 @@ final TextTheme dartTextTheme = TextTheme(
       fontFamily: 'Hind',
     ),
   ),
-);
-
-ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    colorScheme: lightColorScheme,
-    textTheme: lightTextTheme);
-
-ThemeData darkTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: darkColorScheme,
-  textTheme: dartTextTheme,
 );

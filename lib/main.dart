@@ -46,12 +46,12 @@ class MyApp extends StatelessWidget {
             title: 'Photo Diary',
             theme: ThemeData(
               useMaterial3: true,
-              colorScheme: lightColorScheme,
+              colorScheme: lightColorScheme ?? defaultLightColorScheme,
               textTheme: lightTextTheme,
             ),
             darkTheme: ThemeData(
               useMaterial3: true,
-              colorScheme: darkColorScheme,
+              colorScheme: darkColorScheme ?? defaultDarkColorScheme,
               textTheme: dartTextTheme,
             ),
             // TODO 230603 Splash에서 해당 로직 체크
