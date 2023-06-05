@@ -45,10 +45,12 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
+            textTheme: lightTextTheme,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkColorScheme,
+            textTheme: dartTextTheme,
           ),
           // TODO 230603 Splash에서 해당 로직 체크
           home: authViewModel.user == null ? const AuthPage() : HomePage(),
