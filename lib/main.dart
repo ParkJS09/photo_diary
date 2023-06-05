@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:today/common/color_schemes.dart';
@@ -38,24 +39,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthViewModel>(
-      builder: (context, authViewModel, child) {
-        return MaterialApp(
-          title: 'Photo Diary',
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-            textTheme: lightTextTheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-            textTheme: dartTextTheme,
-          ),
-          // TODO 230603 Splash에서 해당 로직 체크
-          home: authViewModel.user == null ? const AuthPage() : HomePage(),
-        );
-      },
-    );
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return Consumer<AuthViewModel>(
+        builder: (context, authViewModel, child) {
+          return MaterialApp(
+            title: 'Photo Diary',
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: lightColorScheme,
+              textTheme: lightTextTheme,
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: darkColorScheme,
+              textTheme: dartTextTheme,
+            ),
+            // TODO 230603 Splash에서 해당 로직 체크
+            home: authViewModel.user == null ? const AuthPage() : HomePage(),
+          );
+        },
+      );
+    });
   }
 }

@@ -82,17 +82,17 @@ final TextTheme lightTextTheme = TextTheme(
       fontStyle: FontStyle.italic,
     ),
   ),
-  titleSmall: GoogleFonts.gowunBatang(
-      textStyle: const TextStyle(
-    fontSize: 20.0,
-    fontFamily: 'Hind',
-  )),
   titleMedium: GoogleFonts.gowunBatang(
     textStyle: const TextStyle(
       fontStyle: FontStyle.normal,
-      fontSize: 28.0,
-      fontWeight: FontWeight.w700,
+      fontSize: 24.0,
       color: Colors.white,
+    ),
+  ),
+  titleSmall: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 20.0,
+      fontFamily: 'Hind',
     ),
   ),
   bodyMedium: GoogleFonts.gowunBatang(
@@ -119,7 +119,7 @@ final TextTheme dartTextTheme = TextTheme(
   titleMedium: GoogleFonts.gowunBatang(
     textStyle: const TextStyle(
       fontStyle: FontStyle.normal,
-      fontSize: 28.0,
+      fontSize: 24.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
