@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
@@ -68,45 +69,78 @@ const darkColorScheme = ColorScheme(
   scrim: Color(0xFF000000),
 );
 
-const TextTheme lightTextTheme = TextTheme(
-  displayLarge: TextStyle(
-    fontSize: 72.0,
-    fontWeight: FontWeight.bold,
+final TextTheme lightTextTheme = TextTheme(
+  displayLarge: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 72.0,
+      fontWeight: FontWeight.bold,
+    ),
   ),
-  titleLarge: TextStyle(
-    fontSize: 36.0,
-    fontStyle: FontStyle.italic,
+  titleLarge: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 36.0,
+      fontStyle: FontStyle.italic,
+    ),
   ),
-  titleMedium: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontSize: 28.0,
-    fontWeight: FontWeight.w700,
-    color: Colors.white,
-  ),
-  bodyMedium: TextStyle(
-    fontSize: 14.0,
+  titleSmall: GoogleFonts.gowunBatang(
+      textStyle: const TextStyle(
+    fontSize: 20.0,
     fontFamily: 'Hind',
+  )),
+  titleMedium: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontStyle: FontStyle.normal,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+      color: Colors.white,
+    ),
+  ),
+  bodyMedium: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 14.0,
+      fontFamily: 'Hind',
+    ),
   ),
 );
 
-const TextTheme dartTextTheme = TextTheme(
-  displayLarge: TextStyle(
-    fontSize: 72.0,
-    fontWeight: FontWeight.bold,
+final TextTheme dartTextTheme = TextTheme(
+  displayLarge: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 72.0,
+      fontWeight: FontWeight.bold,
+    ),
   ),
-  titleLarge: TextStyle(
-    fontSize: 36.0,
-    fontStyle: FontStyle.italic,
+  titleLarge: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 36.0,
+      fontStyle: FontStyle.italic,
+    ),
   ),
-  titleMedium: TextStyle(
-    fontStyle: FontStyle.normal,
-    fontSize: 28.0,
-    fontWeight: FontWeight.w700,
-    color: Colors.white,
+  titleMedium: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontStyle: FontStyle.normal,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+      color: Colors.white,
+    ),
   ),
-  bodyMedium: TextStyle(
-    fontSize: 14.0,
-    fontFamily: 'Hind',
+  titleSmall: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 20.0,
+      fontFamily: 'Hind',
+    ),
+  ),
+  bodyMedium: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 20.0,
+      fontFamily: 'Hind',
+    ),
+  ),
+  bodySmall: GoogleFonts.gowunBatang(
+    textStyle: const TextStyle(
+      fontSize: 14.0,
+      fontFamily: 'Hind',
+    ),
   ),
 );
 
