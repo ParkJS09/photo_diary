@@ -54,9 +54,12 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<void> uploadDiary(String text, String path) async {
-    Result _result =
-        await _diaryUseCase.saveImageAndText(_selectDate, text, path);
-    _result.when(success: (data) {}, failure: (data) {}, error: (msg) {});
+    // Result _result =
+    //     await _diaryUseCase.saveImageAndText(_selectDate, text, path);
+    // _result.when(success: (data) {
+    //   _homeState = Finish();
+    // }, failure: (data) {}, error: (msg) {});
+    _homeState = Finish();
     notifyListeners();
   }
 }
