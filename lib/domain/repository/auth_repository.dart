@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:today/data/models/network_response.dart';
+import 'package:today/data/models/network_reuslt.dart' as newNetwork;
 
 abstract class AuthRepository {
   Future<User?> currentUser();
-  Future<Result> onSignIn({
+
+  Future<newNetwork.NetworkResponse> onNewSignIn({
     required String email,
     required String password
   });

@@ -51,26 +51,25 @@ class _HomePageState extends State<HomePage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (homeState is DiaryList) {
-                    if (homeState.diaryItem.isEmpty) {
-                      return emptyView();
-                    }
-                    return GridView.count(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 28.0,
-                        horizontal: 14.0,
-                      ),
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 12.0,
-                      crossAxisSpacing: 12.0,
-                      controller: _listScrollController,
-                      children: homeState.diaryItem
-                          .map((diary) => _buildDiaryImage(diary))
-                          .toList(),
-                    );
-                  } else {
-                    return emptyView();
                   }
+                  if (homeState is DiaryList) {
+                    if (homeState.diaryItem.isNotEmpty) {
+                      return GridView.count(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 28.0,
+                          horizontal: 14.0,
+                        ),
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 12.0,
+                        crossAxisSpacing: 12.0,
+                        controller: _listScrollController,
+                        children: homeState.diaryItem
+                            .map((diary) => _buildDiaryImage(diary))
+                            .toList(),
+                      );
+                    }
+                  }
+                  return emptyView();
                 },
               ),
             ),
@@ -137,8 +136,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget emptyView() {
-    return const Center(
-      child: Text('일기를 채워주세요'),
+    return Center(
+      child: Text(
+        '일기를 채워주세요',
+        style: Theme.of(context).textTheme.titleSmall ??
+            const TextStyle(fontSize: 28.0),
+      ),
     );
   }
 }

@@ -17,3 +17,6 @@ class DiaryList implements HomeDiaryState {
 
   List<DiaryContent> get diaryItem => _diaryList;
 }
+
+
+class Finish implements HomeDiaryState {}

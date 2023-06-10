@@ -14,13 +14,6 @@ class AuthUseCase {
     return authRepository.currentUser();
   }
 
-  Future<Result> onSignIn({
-    required String email, // 이메일
-    required String password, // 비밀번호
-  }) async {
-    return await authRepository.onSignIn(email: email, password: password);
-  }
-
   Future<Result> onSignUp({
     required String email, // 이메일
     required String password, // 비밀번호

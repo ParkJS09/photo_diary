@@ -1,7 +1,11 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart';
+import 'package:today/data/mapper/UserMapper.dart';
 import 'package:today/data/models/network_response.dart';
+import 'package:today/data/models/network_reuslt.dart' as newNetwork;
+import 'package:today/domain/models/user_model.dart';
 import 'package:today/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -17,26 +21,44 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result> onSignIn({
+  Future<newNetwork.NetworkResponse> onNewSignIn({
     required String email,
     required String password,
   }) async {
+    // // 로그인 시도
+    // try {
+    //   UserCredential userCredential =
+    //   await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //     email: email,
+    //     password: password,
+    //   ).then((value) => {
+    //       return newNetwork.ResponseSuccess(value.user);
+    //   });
+    //   log('userCredential...');
+    //   if (userCredential.user != null) {
+    //     return newNetwork.ResponseSuccess(userCredential.user);
+    //   }
+    //   return newNetwork.ResponseFailed('로그인 과정 중 에러가 발생하였습니다.');
+    // } on FirebaseAuthException catch (e) {
+    //   // firebase auth 에러 발생
+    //   return newNetwork.ResponseFailed(e.message ?? '로그인 과정 중 에러가 발생하였습니다.');
+    // } catch (e) {
+    //   // Firebase auth 이외의 에러 발생
+    //   return newNetwork.ResponseError(e.toString());
+    // }
     // 로그인 시도
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      log('userCredential...');
-      return Result.success(data: userCredential.user);
-    } on FirebaseAuthException catch (e) {
-      // firebase auth 에러 발생
-      return Result.failure(data: e.message ?? '에러가 발생하였습니다.');
-    } catch (e) {
-      // Firebase auth 이외의 에러 발생
-      return Result.error(message: e.toString());
-    }
+    return await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    ).then((value) {
+      if (value.user != null) {
+        return newNetwork.ResponseSuccess(value.user?.toUserModel());
+      }
+      return newNetwork.ResponseFailed("로그인 중 에러가 발생하였습니다.");
+    }).catchError((onError) {
+      newNetwork.ResponseError(onError.toString());
+    });
   }
 
   @override
